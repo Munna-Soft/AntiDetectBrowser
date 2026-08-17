@@ -8,7 +8,7 @@
 
 ---
 
-# AutoGuard AntiDetect Browser = Advanced AntiDetect Browser
+# AutoGuard - Advanced AntiDetect Browser
 
 ![Dark Mode ](gui-dark.png) </br>
 ![Light Mode ](gui-light.png)
@@ -20,6 +20,19 @@
     👉 <a href="https://autoguardbrowser.netlify.app" target="_blank">Netlify Link</a> 🚀
 </h3>
 <img src="https://raw.githubusercontent.com/Munna-Soft/Portfolio/master/assets/RGB_Light.gif" width="100%" height="75">
+
+## Legitimate use & responsibility
+
+Autoguard is a tool for **legitimate multi-account management**: marketing agencies
+handling many client ad accounts, QA and ad-verification testing, web-automation
+development, and privacy research — the same use cases served openly by
+commercial anti-detect browsers.
+
+Do **not** use it for fraud, credential stuffing, spam, evading bans you've
+earned, or anything that violates a site's terms of service or the law. You are
+responsible for how you use it.
+
+---
 
 # ❤️ Support My Project  
 <div align="center">
