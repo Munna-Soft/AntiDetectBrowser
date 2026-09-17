@@ -1,0 +1,2469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AutoGuard – Self Hosted Anti-Detect Browser for Multi-Accounts Management</title>
+
+    <!-- Favicon -->
+    <link rel="icon" href="favicon.ico" type="image/x-icon" />
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="AutoGuard is a self-hosted anti-detect browser for managing unlimited accounts with advanced fingerprint protection, proxy management — all locally stored." />
+    <meta name="keywords" content="anti-detect browser, multi-account management, fingerprint protection, proxy manager, automation, browser profiles" />
+    <meta name="author" content="Munna MasterMind" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://autoguardbrowser.vercel.app/" />
+    <meta property="og:title" content="AutoGuard – Self Hosted Anti-Detect Browser for Multi-Accounts Management" />
+    <meta property="og:description" content="Manage unlimited accounts safely with AutoGuard. Built-in fingerprint protection, proxy management." />
+    <meta property="og:image" content="https://autoguardbrowser.vercel.app/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="AutoGuard – Self Hosted Anti-Detect Browser for Multi-Accounts Management" />
+    <meta name="twitter:description" content="Manage unlimited accounts safely with AutoGuard. Built-in Fingerprint protection, proxy management." />
+    <meta name="twitter:image" content="https://autoguardbrowser.vercel.app/og-image2.png" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+    <style>
+        /* ===== Reset & Base ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #0B0E14;
+            color: #F8FAFC;
+            line-height: 1.5;
+            scroll-behavior: smooth;
+            transition: background 0.3s, color 0.3s;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* ===== Animated Background ===== */
+        .animated-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .bg-gradient-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.3;
+            animation: float-orb 20s infinite ease-in-out;
+            will-change: transform;
+        }
+
+        .orb-1 {
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, #F97316, #F97316 20%, transparent 70%);
+            top: -15%;
+            left: -10%;
+            animation-delay: 0s;
+        }
+
+        .orb-2 {
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, #22D3EE, #22D3EE 20%, transparent 70%);
+            top: 30%;
+            right: -10%;
+            animation-delay: 7s;
+        }
+
+        .orb-3 {
+            width: 550px;
+            height: 550px;
+            background: radial-gradient(circle, #6366F1, #6366F1 20%, transparent 70%);
+            bottom: -15%;
+            left: 25%;
+            animation-delay: 14s;
+        }
+
+        @keyframes float-orb {
+            0%, 100% {
+                transform: translate(0, 0) scale(1);
+            }
+            33% {
+                transform: translate(50px, -60px) scale(1.15);
+            }
+            66% {
+                transform: translate(-40px, 40px) scale(0.85);
+            }
+        }
+
+        /* Particle system */
+        .particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+        }
+
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: rgba(249, 115, 22, 0.6);
+            border-radius: 50%;
+            animation: particle-float 15s infinite linear;
+            box-shadow: 0 0 4px rgba(249, 115, 22, 0.8);
+        }
+
+        @keyframes particle-float {
+            0% {
+                transform: translateY(100vh) translateX(0) scale(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) translateX(100px) scale(1);
+                opacity: 0;
+            }
+        }
+
+        /* Light theme adjustments */
+        body.light-theme .bg-gradient-orb {
+            opacity: 0.12;
+            filter: blur(100px);
+        }
+
+        body.light-theme .orb-1 {
+            background: radial-gradient(circle, #F97316, #F97316 20%, transparent 70%);
+        }
+
+        body.light-theme .orb-2 {
+            background: radial-gradient(circle, #0EA5E9, #0EA5E9 20%, transparent 70%);
+        }
+
+        body.light-theme .orb-3 {
+            background: radial-gradient(circle, #8B5CF6, #8B5CF6 20%, transparent 70%);
+        }
+
+        body.light-theme .particle {
+            background: rgba(249, 115, 22, 0.4);
+            box-shadow: 0 0 3px rgba(249, 115, 22, 0.6);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* ===== Buttons ===== */
+        .btn {
+            display: inline-block;
+            font-weight: 600;
+            border-radius: 40px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background: #F97316;
+            color: #fff;
+            box-shadow: 0 4px 14px rgba(249, 115, 22, 0.4);
+        }
+        .btn-primary:hover {
+            background: #EA580C;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(249, 115, 22, 0.5);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: #F8FAFC;
+            border: 1.5px solid #555;
+        }
+        .btn-outline:hover {
+            border-color: #F97316;
+            color: #F97316;
+        }
+
+        .btn-sm {
+            padding: 8px 20px;
+            font-size: 0.9rem;
+        }
+
+        .btn-lg {
+            padding: 14px 40px;
+            font-size: 1.1rem;
+        }
+
+        .btn-whatsapp {
+            background: #25D366;
+            color: #fff;
+            box-shadow: 0 4px 14px rgba(37, 211, 102, 0.4);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .btn-whatsapp:hover {
+            background: #1da851;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.5);
+        }
+
+        /* ===== Theme Toggle ===== */
+        .theme-toggle {
+            background: none;
+            border: 1px solid #555;
+            border-radius: 40px;
+            padding: 6px 12px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: #F8FAFC;
+            background: #1a1a1a;
+        }
+        .theme-toggle:hover {
+            border-color: #F97316;
+            transform: scale(1.05);
+        }
+
+        /* ===== Navbar ===== */
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(11, 14, 20, 0.85);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid #2a2a2a;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand {
+            font-size: 1.4rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, #F97316, #22D3EE);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* ===== Hero ===== */
+        .hero {
+            padding: 60px 0 80px;
+            background: radial-gradient(ellipse at 30% 40%, #1a1a2e, #0B0E14 70%);
+        }
+
+        .hero-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .hero-content {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .badge {
+            background: #2d2d2d;
+            color: #22D3EE;
+            padding: 6px 16px;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-block;
+            width: fit-content;
+            border: 1px solid #22D3EE44;
+        }
+
+        .hero h1 {
+            font-size: 3.2rem;
+            font-weight: 800;
+            line-height: 1.15;
+            letter-spacing: -1px;
+        }
+
+        .hero h1 span {
+            background: linear-gradient(135deg, #22D3EE, #F97316);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-sub {
+            font-size: 1.2rem;
+            color: #CBD5E1;
+            max-width: 520px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-top: 8px;
+        }
+
+        .hero-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            font-size: 0.9rem;
+            color: #888;
+            margin-top: 8px;
+        }
+
+        .hero-meta span {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .hero-visual {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .screenshot-placeholder {
+            width: 100%;
+            max-width: 500px;
+            background: #1a1a2a;
+            border-radius: 24px;
+            padding: 24px 20px 20px;
+            border: 1px solid #333;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+            animation: float 4s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-12px);
+            }
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        .screenshot-img {
+            max-width: 100%;
+            border-radius: 16px;
+            display: block;
+            margin: 0 auto;
+            transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                box-shadow 0.4s ease,
+                opacity 0.3s ease;
+            cursor: pointer;
+        }
+
+        .screenshot-img:hover {
+            transform: scale(1.04);
+            box-shadow: 0 12px 40px rgba(249, 115, 22, 0.3);
+        }
+
+        body.light-theme .screenshot-img:hover {
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        /* ===== Video Section ===== */
+        .video-section {
+            padding: 0 0 60px;
+            background: #0B0E14;
+        }
+
+        .video-wrapper {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
+            border: 1px solid #2a2a2a;
+        }
+
+        .video-wrapper iframe {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            display: block;
+        }
+
+        /* ===== Sections ===== */
+        section {
+            padding: 80px 0;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-header h2 {
+            font-size: 2.4rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .section-header p {
+            color: #CBD5E1;
+            font-size: 1.1rem;
+            margin-top: 8px;
+        }
+
+        /* ===== Features ===== */
+        .features {
+            background: #0F172A;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-card {
+            background: #1a1a2a;
+            padding: 30px 24px;
+            border-radius: 20px;
+            border: 1px solid #2a2a2a;
+            transition: transform 0.2s ease, border-color 0.2s;
+            text-align: center;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-6px);
+            border-color: #F9731666;
+        }
+
+        .feature-icon {
+            font-size: 2.4rem;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .feature-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 8px;
+        }
+
+        .feature-card p {
+            color: #CBD5E1;
+            font-size: 0.95rem;
+        }
+
+        /* ===== Comparison Table ===== */
+        .comparison-section {
+            background: #0B0E14;
+        }
+
+        .comparison-wrapper {
+            margin-top: 48px;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            scroll-behavior: smooth;
+            scrollbar-width: thin;
+            scrollbar-color: #F97316 #1a1a1a;
+        }
+
+        .comparison-wrapper::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .comparison-wrapper::-webkit-scrollbar-track {
+            background: #1a1a1a;
+            border-radius: 10px;
+        }
+
+        .comparison-wrapper::-webkit-scrollbar-thumb {
+            background: #F97316;
+            border-radius: 10px;
+        }
+
+        .comparison-wrapper::-webkit-scrollbar-thumb:hover {
+            background: #EA580C;
+        }
+
+        /* Light theme scrollbar */
+        body.light-theme .comparison-wrapper {
+            scrollbar-color: #F97316 #e0e0e0;
+        }
+
+        body.light-theme .comparison-wrapper::-webkit-scrollbar-track {
+            background: #e0e0e0;
+        }
+
+        body.light-theme .comparison-wrapper::-webkit-scrollbar-thumb {
+            background: #F97316;
+        }
+
+        /* Mobile scroll hint */
+        .scroll-hint {
+            display: none;
+            text-align: center;
+            color: #888;
+            font-size: 0.85rem;
+            margin-top: 16px;
+            padding: 10px;
+            background: rgba(249, 115, 22, 0.1);
+            border: 1px dashed rgba(249, 115, 22, 0.3);
+            border-radius: 8px;
+            animation: pulse-hint 2s infinite;
+        }
+
+        @keyframes pulse-hint {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.6;
+            }
+        }
+
+        .scroll-hint i {
+            margin-right: 6px;
+            color: #F97316;
+        }
+
+        body.light-theme .scroll-hint {
+            color: #666;
+            background: rgba(249, 115, 22, 0.08);
+            border-color: rgba(249, 115, 22, 0.2);
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            background: rgba(248, 250, 252, 0.02);
+            border: 1px solid rgba(248, 250, 252, 0.06);
+            border-radius: 12px;
+            overflow: hidden;
+            min-width: 700px;
+        }
+
+        .comparison-table thead {
+            background: rgba(248, 250, 252, 0.03);
+        }
+
+        .comparison-table th {
+            padding: 18px 20px;
+            text-align: left;
+            font-weight: 700;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #94A3B8;
+            border-bottom: 1px solid rgba(248, 250, 252, 0.06);
+        }
+
+        .comparison-table th:first-child {
+            color: #F8FAFC;
+        }
+
+        .comparison-table td {
+            padding: 16px 20px;
+            border-bottom: 1px solid rgba(248, 250, 252, 0.04);
+            font-size: 0.95rem;
+            color: #CBD5E1;
+        }
+
+        .comparison-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .comparison-table tbody tr:hover {
+            background: rgba(248, 250, 252, 0.02);
+        }
+
+        .feature-name {
+            font-weight: 600;
+            color: #F8FAFC;
+            white-space: nowrap;
+        }
+
+        .check-mark {
+            color: #22D3EE;
+            font-weight: 700;
+        }
+
+        .cross-mark {
+            color: #64748B;
+        }
+
+        .highlight-cell {
+            background: rgba(249, 115, 22, 0.08);
+            font-weight: 700;
+            color: #F97316;
+        }
+
+        .comparison-table .highlight-row td {
+            border-left: 2px solid #F97316;
+        }
+
+        .comparison-table .best-badge {
+            display: inline-block;
+            background: #F97316;
+            color: #fff;
+            font-size: 0.6rem;
+            font-weight: 700;
+            padding: 2px 10px;
+            border-radius: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            margin-left: 6px;
+        }
+
+        /* ===== Tech Stack ===== */
+        .tech-stack {
+            background: #0B0E14;
+        }
+
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .tech-item {
+            background: #1a1a2a;
+            padding: 30px 24px;
+            border-radius: 20px;
+            border: 1px solid #2a2a2a;
+            text-align: center;
+            transition: transform 0.2s ease, border-color 0.2s;
+        }
+
+        .tech-item:hover {
+            transform: translateY(-4px);
+            border-color: #F9731666;
+        }
+
+        .tech-emoji {
+            font-size: 2.8rem;
+            display: block;
+            margin-bottom: 12px;
+        }
+
+        .tech-item h4 {
+            font-size: 1.15rem;
+            margin-bottom: 8px;
+        }
+
+        .tech-item p {
+            color: #CBD5E1;
+            font-size: 0.95rem;
+        }
+
+        /* ===== How It Works ===== */
+        .how-it-works {
+            background: #0F172A;
+        }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+        }
+
+        .step {
+            background: #1a1a2a;
+            padding: 30px 20px;
+            border-radius: 20px;
+            text-align: center;
+            border: 1px solid #2a2a2a;
+            position: relative;
+        }
+
+        .step-number {
+            display: inline-block;
+            background: #F97316;
+            color: #fff;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            line-height: 44px;
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-bottom: 12px;
+        }
+
+        .step h4 {
+            font-size: 1.1rem;
+            margin-bottom: 6px;
+        }
+
+        .step p {
+            color: #CBD5E1;
+            font-size: 0.95rem;
+        }
+
+        /* ===== How To Works (Fingerprint Guide) ===== */
+        .how-to-works {
+            background: #0B0E14;
+        }
+
+        .htw-intro {
+            max-width: 860px;
+            margin: -20px auto 40px;
+            text-align: center;
+        }
+
+        .htw-intro p {
+            color: #CBD5E1;
+            font-size: 1.02rem;
+            line-height: 1.7;
+        }
+
+        .htw-intro strong {
+            color: #F8FAFC;
+        }
+
+        .htw-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            align-items: stretch;
+        }
+
+        .htw-card {
+            background: #1a1a2a;
+            border: 1px solid #2a2a2a;
+            border-radius: 20px;
+            padding: 30px 26px;
+            transition: transform 0.2s ease, border-color 0.2s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .htw-card:hover {
+            transform: translateY(-4px);
+            border-color: #F9731666;
+        }
+
+        .htw-card-head {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            margin-bottom: 18px;
+        }
+
+        .htw-emoji {
+            font-size: 2.2rem;
+            line-height: 1;
+        }
+
+        .htw-card-head h3 {
+            font-size: 1.25rem;
+            margin-bottom: 4px;
+        }
+
+        .htw-card-head p {
+            color: #CBD5E1;
+            font-size: 0.92rem;
+        }
+
+        .htw-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .htw-list li {
+            color: #CBD5E1;
+            font-size: 0.92rem;
+            line-height: 1.5;
+            padding: 7px 10px;
+            background: #141414;
+            border: 1px solid #242424;
+            border-radius: 10px;
+        }
+
+        .htw-model {
+            display: inline-block;
+            background: #F9731622;
+            color: #FB923C;
+            font-weight: 600;
+            font-size: 0.82rem;
+            padding: 2px 10px;
+            border-radius: 40px;
+            margin-right: 8px;
+            white-space: nowrap;
+        }
+
+        .htw-mini-tips {
+            margin-top: 22px;
+            padding-top: 18px;
+            border-top: 1px solid #2a2a2a;
+        }
+
+        .htw-mini-tips h4 {
+            font-size: 1rem;
+            margin-bottom: 10px;
+        }
+
+        .htw-mini-tips ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .htw-mini-tips li {
+            color: #CBD5E1;
+            font-size: 0.92rem;
+            line-height: 1.55;
+        }
+
+        .htw-mini-tips strong {
+            color: #F8FAFC;
+        }
+
+        .htw-auto-tip {
+            margin-top: 30px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            background: linear-gradient(145deg, #1a1a2e, #131320);
+            border: 1px solid #F9731655;
+            border-radius: 20px;
+            padding: 22px 26px;
+        }
+
+        .htw-auto-icon {
+            font-size: 2rem;
+            line-height: 1;
+        }
+
+        .htw-auto-tip h4 {
+            font-size: 1.05rem;
+            margin-bottom: 4px;
+        }
+
+        .htw-auto-tip p {
+            color: #CBD5E1;
+            font-size: 0.95rem;
+        }
+
+        /* ===== PRICING ===== */
+        .pricing {
+            background: #0B0E14;
+        }
+
+        .pricing-header-flex {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .pricing-header-flex>div {
+            text-align: left;
+        }
+
+        .pricing-header-flex>div h2 {
+            font-size: 2.4rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .pricing-header-flex>div p {
+            color: #CBD5E1;
+            font-size: 1.1rem;
+            margin-top: 4px;
+        }
+
+        /* Currency Toggle */
+        .currency-toggle-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #1a1a2a;
+            padding: 10px 18px;
+            border-radius: 40px;
+            border: 1px solid #2a2a2a;
+            flex-shrink: 0;
+        }
+
+        .currency-label {
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: #888;
+            transition: color 0.3s;
+        }
+
+        .currency-label.active {
+            color: #fff;
+        }
+
+        body.light-theme .currency-label.active {
+            color: #111;
+        }
+
+        .rate-hint {
+            font-size: 0.7rem;
+            color: #666;
+            margin-left: 2px;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 44px;
+            height: 24px;
+            flex-shrink: 0;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #F97316;
+            transition: .3s;
+            border-radius: 24px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .3s;
+            border-radius: 50%;
+        }
+
+        .switch input:checked+.slider {
+            background-color: #F97316;
+        }
+
+        .switch input:checked+.slider:before {
+            transform: translateX(20px);
+        }
+
+        .switch input:focus+.slider {
+            box-shadow: 0 0 1px #F97316;
+        }
+
+        body.light-theme .currency-toggle-wrapper {
+            background: #fff;
+            border-color: #ddd;
+        }
+
+        body.light-theme .currency-label {
+            color: #888;
+        }
+
+        body.light-theme .currency-label.active {
+            color: #111;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            align-items: stretch;
+        }
+
+        .pricing-card {
+            background: #1a1a2a;
+            border-radius: 24px;
+            padding: 40px 30px 35px;
+            border: 1px solid #2a2a2a;
+            text-align: center;
+            transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-8px);
+            border-color: #F9731666;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .pricing-card.popular {
+            border-color: #F97316;
+            box-shadow: 0 0 30px rgba(249, 115, 22, 0.15);
+        }
+
+        .pricing-card.popular:hover {
+            box-shadow: 0 20px 60px rgba(249, 115, 22, 0.25);
+        }
+
+        .pricing-badge {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: #F97316;
+            color: #fff;
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 4px 14px;
+            border-radius: 40px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .pricing-card .package-icon {
+            font-size: 2.8rem;
+            margin-bottom: 8px;
+        }
+
+        .pricing-card h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .pricing-card .package-sub {
+            color: #888;
+            font-size: 0.9rem;
+            margin-bottom: 16px;
+        }
+
+        .pricing-card .price {
+            font-size: 2.8rem;
+            font-weight: 800;
+            color: #fff;
+            margin-bottom: 4px;
+            letter-spacing: -1px;
+        }
+
+        .pricing-card .price .price-currency {
+            font-size: 1rem;
+            font-weight: 400;
+            color: #888;
+        }
+
+        .pricing-card .price-note {
+            color: #888;
+            font-size: 0.85rem;
+            margin-bottom: 20px;
+        }
+
+        .pricing-card .divider {
+            height: 1px;
+            background: #2a2a2a;
+            margin: 16px 0 20px;
+        }
+
+        .pricing-card .features-list {
+            list-style: none;
+            text-align: left;
+            margin-bottom: 28px;
+            flex: 1;
+        }
+
+        .pricing-card .features-list li {
+            padding: 6px 0;
+            color: #CBD5E1;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .pricing-card .features-list li .check {
+            color: #25D366;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .pricing-card .btn-whatsapp {
+            width: 100%;
+            justify-content: center;
+            padding: 14px 20px;
+            font-size: 1rem;
+            margin-top: auto;
+        }
+
+        /* ===== Download ===== */
+        .download {
+            background: #0B0E14;
+            padding: 80px 0 100px;
+        }
+
+        .download-box {
+            background: linear-gradient(145deg, #1a1a2a, #0F172A);
+            padding: 60px 40px;
+            border-radius: 32px;
+            border: 1px solid #2a2a2a;
+            max-width: 960px;
+            margin: 0 auto;
+        }
+
+        .download-box .section-header {
+            margin-bottom: 40px;
+        }
+
+        .download-box .section-header h2 {
+            font-size: 2.2rem;
+            margin-bottom: 8px;
+        }
+
+        .download-box .section-header p {
+            color: #CBD5E1;
+            font-size: 1.05rem;
+        }
+
+        .download-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .download-card {
+            background: #14141e;
+            border: 1px solid #2a2a2a;
+            border-radius: 20px;
+            padding: 28px 24px 24px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .download-card:hover {
+            transform: translateY(-4px);
+            border-color: #F9731666;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Download card icon & badge */
+        .os-icon {
+            position: relative;
+            display: inline-block;
+            font-size: 2.8rem;
+            margin-bottom: 8px;
+        }
+
+        .version-badge {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background: #6c5ce7;
+            color: #fff;
+            font-size: 0.65rem;
+            font-weight: 600;
+            padding: 2px 8px;
+            border-radius: 20px;
+        }
+
+        .download-card .os-icon {
+            font-size: 2.8rem;
+            margin-bottom: 8px;
+        }
+
+        .download-card h4 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .download-card .os-version {
+            color: #666;
+            font-size: 0.85rem;
+            margin-bottom: 16px;
+        }
+
+        .download-card .dl-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .download-card .dl-buttons .btn {
+            width: 100%;
+            justify-content: center;
+            padding: 10px 16px;
+            font-size: 0.85rem;
+            border-radius: 30px;
+        }
+
+        .download-card .dl-buttons .btn-outline {
+            border-color: #444;
+            color: #CBD5E1;
+        }
+
+        .download-card .dl-buttons .btn-outline:hover {
+            border-color: #F97316;
+            color: #F97316;
+        }
+
+        .download-note {
+            text-align: center;
+            font-size: 0.9rem;
+            color: #777;
+            margin-top: 30px;
+        }
+
+        /* ===== Footer ===== */
+        .footer {
+            background: #0a0a0a;
+            border-top: 1px solid #1e1e1e;
+            padding: 40px 0 0;
+        }
+
+        .footer-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 30px;
+            text-align: center;
+            justify-items: center;
+            padding-bottom: 40px;
+        }
+
+        .footer-col {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .footer-col h4,
+        .footer-col h5 {
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .footer-col p,
+        .footer-col a {
+            color: #CBD5E1;
+            font-size: 0.95rem;
+            display: block;
+            margin-bottom: 6px;
+            transition: color 0.2s;
+        }
+
+        .footer-col a:hover {
+            color: #F97316;
+        }
+
+        .social-links {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #1a1a1a;
+            padding: 20px 0;
+            text-align: center;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* ============================================================ */
+        /* ===== LIGHT THEME OVERRIDES ===== */
+        /* ============================================================ */
+
+        body.light-theme {
+            background: #f5f5f5;
+            color: #111;
+        }
+        body.light-theme .navbar {
+            background: rgba(245, 245, 245, 0.9);
+            border-bottom: 1px solid #ddd;
+        }
+        body.light-theme .brand {
+            background: linear-gradient(135deg, #EA580C, #0EA5E9);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        body.light-theme .btn-outline {
+            color: #111;
+            border-color: #aaa;
+        }
+        body.light-theme .btn-outline:hover {
+            border-color: #F97316;
+            color: #F97316;
+        }
+        body.light-theme .hero {
+            background: radial-gradient(ellipse at 30% 40%, #e8e8f0, #f5f5f5 70%);
+        }
+        body.light-theme .badge {
+            background: #e0e0e0;
+            color: #EA580C;
+            border-color: #EA580C44;
+        }
+        body.light-theme .hero-sub,
+        body.light-theme .section-header p,
+        body.light-theme .feature-card p,
+        body.light-theme .step p,
+        body.light-theme .download-box .section-header p,
+        body.light-theme .footer-col p,
+        body.light-theme .footer-col a,
+        body.light-theme .tech-item p,
+        body.light-theme .comparison-table td {
+            color: #333;
+        }
+        body.light-theme .feature-card,
+        body.light-theme .step,
+        body.light-theme .download-box,
+        body.light-theme .download-card,
+        body.light-theme .tech-item,
+        body.light-theme .pricing-card {
+            background: #fff;
+            border-color: #ddd;
+        }
+        body.light-theme .download-card {
+            background: #f7f7f7;
+        }
+        body.light-theme .pricing-card .divider {
+            background: #ddd;
+        }
+        body.light-theme .pricing-card .features-list li {
+            color: #333;
+        }
+        body.light-theme .pricing-card .price {
+            color: #111;
+        }
+        body.light-theme .pricing-card .price .price-currency {
+            color: #666;
+        }
+        body.light-theme .pricing-card .package-sub {
+            color: #666;
+        }
+        body.light-theme .features,
+        body.light-theme .how-it-works {
+            background: #f0f0f0;
+        }
+        body.light-theme .tech-stack {
+            background: #f5f5f5;
+        }
+        body.light-theme .pricing {
+            background: #f5f5f5;
+        }
+        body.light-theme .comparison-section {
+            background: #f5f5f5;
+        }
+        body.light-theme .comparison-table {
+            background: #fff;
+            border-color: #ddd;
+        }
+        body.light-theme .comparison-table thead {
+            background: #f7f7f7;
+        }
+        body.light-theme .comparison-table th {
+            color: #666;
+            border-bottom-color: #ddd;
+        }
+        body.light-theme .comparison-table th:first-child {
+            color: #111;
+        }
+        body.light-theme .comparison-table td {
+            border-bottom-color: #eee;
+        }
+        body.light-theme .comparison-table tbody tr:hover {
+            background: #f9f9f9;
+        }
+        body.light-theme .feature-name {
+            color: #111;
+        }
+        body.light-theme .highlight-cell {
+            background: rgba(249, 115, 22, 0.08);
+        }
+        body.light-theme .footer {
+            background: #eaeaea;
+            border-top: 1px solid #ccc;
+        }
+        body.light-theme .footer-bottom {
+            border-top: 1px solid #ccc;
+            color: #555;
+        }
+        body.light-theme .theme-toggle {
+            background: #eee;
+            border-color: #aaa;
+            color: #111;
+        }
+        body.light-theme .screenshot-placeholder {
+            background: #e8e8f0;
+            border-color: #ccc;
+        }
+        body.light-theme .download-box {
+            background: linear-gradient(145deg, #f0f0f8, #fff);
+        }
+        body.light-theme .video-wrapper {
+            border-color: #ccc;
+        }
+        body.light-theme .video-section {
+            background: #f5f5f5;
+        }
+        body.light-theme .download {
+            background: #f5f5f5;
+        }
+        body.light-theme .pricing-card.popular {
+            border-color: #EA580C;
+            box-shadow: 0 0 30px rgba(234, 88, 12, 0.15);
+        }
+        body.light-theme .pricing-card.popular:hover {
+            box-shadow: 0 20px 60px rgba(234, 88, 12, 0.25);
+        }
+        body.light-theme .pricing-badge {
+            background: #EA580C;
+        }
+        body.light-theme .pricing-header-flex>div p {
+            color: #333;
+        }
+        body.light-theme .how-to-works {
+            background: #f5f5f5;
+        }
+        body.light-theme .htw-card {
+            background: #fff;
+            border-color: #ddd;
+        }
+        body.light-theme .htw-intro p,
+        body.light-theme .htw-card-head p,
+        body.light-theme .htw-mini-tips li,
+        body.light-theme .htw-auto-tip p {
+            color: #333;
+        }
+        body.light-theme .htw-intro strong,
+        body.light-theme .htw-mini-tips strong {
+            color: #111;
+        }
+        body.light-theme .htw-list li {
+            background: #f7f7f7;
+            border-color: #e2e2e2;
+            color: #444;
+        }
+        body.light-theme .htw-model {
+            background: #EA580C18;
+            color: #EA580C;
+        }
+        body.light-theme .htw-mini-tips {
+            border-top-color: #ddd;
+        }
+        body.light-theme .htw-auto-tip {
+            background: linear-gradient(145deg, #fef3e8, #fff);
+            border-color: #EA580C55;
+        }
+        body.light-theme .download-card .dl-buttons .btn-outline {
+            border-color: #ccc;
+            color: #333;
+        }
+        body.light-theme .download-card .dl-buttons .btn-outline:hover {
+            border-color: #F97316;
+            color: #F97316;
+        }
+
+        /* Coming Soon Overlay */
+        .download-card.coming-soon {
+            position: relative;
+        }
+
+        .download-card.coming-soon::before {
+            content: 'Coming Soon...';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(11, 14, 20, 0.92);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #F97316;
+            border-radius: 20px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .download-card.coming-soon:hover::before {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .download-card.coming-soon:hover .dl-buttons a {
+            pointer-events: none;
+        }
+
+        body.light-theme .download-card.coming-soon::before {
+            background: rgba(245, 245, 245, 0.95);
+            color: #EA580C;
+        }
+
+        /* ============================================================ */
+        /* ===== RESPONSIVE ===== */
+        /* ============================================================ */
+        @media (max-width: 900px) {
+            .hero-container {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hero-content {
+                align-items: center;
+            }
+            .hero h1 {
+                font-size: 2.6rem;
+            }
+            .hero-sub {
+                max-width: 100%;
+            }
+            .hero-meta {
+                justify-content: center;
+            }
+            .hero-buttons {
+                justify-content: center;
+            }
+            .screenshot-placeholder {
+                max-width: 100%;
+            }
+            .pricing-grid {
+                grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            }
+            .htw-grid {
+                grid-template-columns: 1fr;
+            }
+            .pricing-header-flex {
+                flex-direction: column;
+                text-align: center;
+            }
+            .pricing-header-flex>div {
+                text-align: center;
+            }
+            .currency-toggle-wrapper {
+                margin-top: 4px;
+            }
+            .download-grid {
+                grid-template-columns: 1fr;
+                max-width: 400px;
+                margin: 0 auto;
+            }
+            .comparison-wrapper {
+                margin-left: -20px;
+                margin-right: -20px;
+                padding: 0 20px;
+            }
+
+            .scroll-hint {
+                display: block;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            .btn-lg {
+                padding: 12px 28px;
+                font-size: 1rem;
+            }
+            .hero-buttons {
+                flex-direction: column;
+                align-items: stretch;
+                width: 100%;
+                max-width: 320px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            .hero-buttons .btn {
+                width: 100%;
+            }
+            .feature-card {
+                text-align: center;
+            }
+            .feature-icon {
+                text-align: center;
+            }
+            .download-box {
+                padding: 40px 20px;
+            }
+            .features-grid,
+            .tech-grid,
+            .pricing-grid {
+                grid-template-columns: 1fr;
+                justify-items: center;
+            }
+            .feature-card,
+            .tech-item,
+            .pricing-card {
+                width: 100%;
+                max-width: 400px;
+                margin: 0 auto;
+            }
+            .steps {
+                grid-template-columns: 1fr;
+                justify-items: center;
+            }
+            .step {
+                width: 100%;
+                max-width: 350px;
+                margin: 0 auto;
+            }
+            .footer-container {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            .pricing-card .price {
+                font-size: 2.2rem;
+            }
+            .currency-toggle-wrapper {
+                padding: 8px 14px;
+                gap: 6px;
+            }
+            .switch {
+                width: 38px;
+                height: 20px;
+            }
+            .slider:before {
+                height: 14px;
+                width: 14px;
+                left: 3px;
+                bottom: 3px;
+            }
+            .switch input:checked+.slider:before {
+                transform: translateX(18px);
+            }
+            .rate-hint {
+                display: none;
+            }
+            .htw-auto-tip {
+                flex-direction: column;
+                text-align: center;
+                padding: 22px 18px;
+            }
+            .htw-card {
+                padding: 24px 18px;
+            }
+            .htw-list li {
+                text-align: left;
+            }
+            .comparison-table {
+                font-size: 0.85rem;
+                min-width: 600px;
+            }
+            .comparison-table th,
+            .comparison-table td {
+                padding: 12px 14px;
+            }
+
+            .scroll-hint {
+                display: block;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .steps {
+                grid-template-columns: 1fr;
+            }
+            .pricing-card {
+                padding: 30px 20px 25px;
+            }
+            .comparison-table {
+                min-width: 520px;
+                font-size: 0.8rem;
+            }
+            .comparison-table th,
+            .comparison-table td {
+                padding: 10px 10px;
+            }
+
+            .scroll-hint {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- ===== Animated Background ===== -->
+    <div class="animated-background">
+        <div class="bg-gradient-orb orb-1"></div>
+        <div class="bg-gradient-orb orb-2"></div>
+        <div class="bg-gradient-orb orb-3"></div>
+        <div class="particles" id="particles"></div>
+    </div>
+
+    <!-- ===== Navigation ===== -->
+    <header class="navbar">
+        <div class="container nav-container">
+            <a href="#" class="brand">🛡️ AutoGuard-AntiDetect Browser</a>
+            <div class="nav-actions">
+                <button id="themeToggle" class="theme-toggle" aria-label="Toggle theme">
+                    <span class="toggle-icon">🌙</span>
+                </button>
+                <a href="#download" class="btn btn-primary btn-sm">Download</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- ===== Hero ===== -->
+    <section class="hero">
+        <div class="container hero-container">
+            <div class="hero-content">
+                <span class="badge">🚀 Production Ready v3.0.0</span>
+                <h1>Self-Hosted Advanced <span>Anti‑Detect Browser</span> for Professionals</h1>
+                <p class="hero-sub">
+                    Manage multiple platform accounts safely with AutoGuard. Built‑in fingerprint protection, proxy management, auto gmail login automation, synchronizer — all locally stored.
+                </p>
+                <div class="hero-buttons">
+                    <a href="#download" class="btn btn-primary btn-lg">Download Now</a>
+                    <a href="#features" class="btn btn-outline btn-lg">Explore Features</a>
+                </div>
+                <div class="hero-meta">
+                    <span>🛡️ Fingerprint protection</span>
+                    <span>🚀 Auto Gmail login</span>
+                    <span>🔄 Profile Synchronizer</span>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="screenshot-placeholder">
+                    <img id="guiPreview" src="gui-dark.png" alt="AutoGuard GUI" class="screenshot-img" />
+                    <p style="margin-top: 12px; color: #aaa; font-size: 0.9rem;">
+                        Python Based • Dark/Light Mode
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== YouTube Video ===== -->
+    <section class="video-section">
+        <div class="container">
+            <div class="video-wrapper">
+                <iframe src="https://www.youtube.com/embed/your-video-id" title="AutoGuard Browser Demo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== Features ===== -->
+    <section id="features" class="features">
+        <div class="container">
+            <div class="section-header">
+                <h2>Why AutoGuard?</h2>
+                <p>Built for scale, priced for teams — manage thousands of accounts with ease.</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Unlimited Profiles</h3>
+                    <p>Create and manage unlimited browser profiles with automation upto 10k without additional costs. No arbitrary limits on accounts or sessions.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🛡️</div>
+                    <h3>Advanced Fingerprint Protection</h3>
+                    <p>Every profile gets a unique digital fingerprint — Useragent, WebGL, TLS/JA3/JA4 fingerprint. Undetectable by anti‑fraud systems.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔒</div>
+                    <h3>Built‑in Proxy Manager</h3>
+                    <p>Integrated proxy management with support for HTTP, HTTPS, SOCKS5. Quick Test and assign proxies or casecading deletion to profiles with one click.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💾</div>
+                    <h3>Local Data Storage</h3>
+                    <p>All profiles stored locally on your machine. Complete data privacy. No vendor lock‑in — control your own data.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🤖</div>
+                    <h3>Automation Ready</h3>
+                    <p>Run automation scripts with ease, including Gmail login automation, cookie management, and profile synchronization.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📋</div>
+                    <h3>Batch Profile Management</h3>
+                    <p>Create, edit, and delete thousands of profiles in bulk. Import/export settings and bulk operations with ease.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== Tech Stack ===== -->
+    <section class="tech-stack">
+        <div class="container">
+            <div class="section-header">
+                <h2>Built with Industry‑Leading Tech</h2>
+                <p>Under the hood, we combine the best commercial tools for reliable performance.</p>
+            </div>
+            <div class="tech-grid">
+                <div class="tech-item">
+                    <span class="tech-emoji">🌐</span>
+                    <h4>Browser Engine</h4>
+                    <p>Built on the latest stealth Browser Engine, ensuring full compatibility with all modern web apps.</p>
+                </div>
+                <div class="tech-item">
+                    <span class="tech-emoji">🧬</span>
+                    <h4>Real‑time Fingerprint Generation</h4>
+                    <p>Creates unique browser fingerprints on‑the‑fly, including Useragent, WebGL, fonts, and Device mac address.</p>
+                </div>
+                <div class="tech-item">
+                    <span class="tech-emoji">🔄</span>
+                    <h4>Proxy Rotation Engine</h4>
+                    <p>Automatically rotates proxies per profile or per session, with support for all major proxy protocols.</p>
+                </div>
+                <div class="tech-item">
+                    <span class="tech-emoji">🔐</span>
+                    <h4>Encrypted Local Storage</h4>
+                    <p>All profile data is encrypted locally using AES‑256, with No vendor lock‑in — control your own data.</p>
+                </div>
+                <div class="tech-item">
+                    <span class="tech-emoji">⚙️</span>
+                    <h4>Automation API</h4>
+                    <p>Full REST API and WebDriver support for seamless integration with your existing automation pipelines.</p>
+                </div>
+                <div class="tech-item">
+                    <span class="tech-emoji">🖥️</span>
+                    <h4>Cross‑Platform</h4>
+                    <p>Native performance on Windows, macOS, and Linux destro— all with the same feature set.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== How It Works ===== -->
+    <section class="how-it-works">
+        <div class="container">
+            <div class="section-header">
+                <h2>How It Works</h2>
+                <p>Simple steps to go from setup to managing thousands of accounts.</p>
+            </div>
+            <div class="steps">
+                <div class="step">
+                    <span class="step-number">1</span>
+                    <h4>Install & Launch</h4>
+                    <p>Download AutoGuard, install it on your machine, and launch the app — no cloud registration required.</p>
+                </div>
+                <div class="step">
+                    <span class="step-number">2</span>
+                    <h4>Create a Profile</h4>
+                    <p>Create a profiles, assign a proxy, and let AutoGuard generate a unique fingerprint automatically.</p>
+                </div>
+                <div class="step">
+                    <span class="step-number">3</span>
+                    <h4>Manage & Automate</h4>
+                    <p>Open profiles, manage cookies, import/export sessions, and run automation scripts with ease.</p>
+                </div>
+                <div class="step">
+                    <span class="step-number">4</span>
+                    <h4>Scale Your Workflow</h4>
+                    <p>Bulk profile creation, set custom urls and API integrations to scale your operations effortlessly.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== How To Works (Fingerprint Guide) ===== -->
+    <section class="how-to-works">
+        <div class="container">
+            <div class="section-header">
+                <h2>Fingerprint Protection Guide</h2>
+                <p>Understand how AutoGuard keeps your profiles undetectable — so you can pick the right settings.</p>
+            </div>
+
+            <div class="htw-intro">
+                <p>
+                    Every browser profile in AutoGuard gets a <strong>unique digital fingerprint</strong>.
+                    The system randomizes over <strong>100+ parameters</strong> including Useragent, WebGL, Canvas, Fonts, Audio context, Screen resolution, and Hardware concurrency.
+                    Below is a breakdown of the fingerprinting layers — <strong>all fully configurable</strong> per profile.
+                </p>
+            </div>
+
+            <div class="htw-grid">
+                <!-- Layer 1 -->
+                <div class="htw-card">
+                    <div class="htw-card-head">
+                        <span class="htw-emoji">🎨</span>
+                        <div>
+                            <h3>Canvas & WebGL Fingerprinting</h3>
+                            <p>Prevents image‑based tracking by injecting subtle noise into canvas and WebGL renders.</p>
+                        </div>
+                    </div>
+                    <ul class="htw-list">
+                        <li><span class="htw-model">Canvas Noise</span> 4 levels of randomization · preserves image quality</li>
+                        <li><span class="htw-model">WebGL Vendor</span> Spoofs GPU vendor, renderer, and driver info</li>
+                        <li><span class="htw-model">WebGL Parameters</span> Alters max texture size, shader precision, and more</li>
+                        <li><span class="htw-model">Canvas Bloat</span> Adds extra pixels to canvas output (undetectable)</li>
+                    </ul>
+                </div>
+
+                <!-- Layer 2 -->
+                <div class="htw-card">
+                    <div class="htw-card-head">
+                        <span class="htw-emoji">🔤</span>
+                        <div>
+                            <h3>Font & System Fingerprinting</h3>
+                            <p>Controls which fonts and system metrics are exposed to websites.</p>
+                        </div>
+                    </div>
+                    <ul class="htw-list">
+                        <li><span class="htw-model">Font List</span> Randomizes installed font list per profile</li>
+                        <li><span class="htw-model">System Fonts</span> Spoofs system font fallbacks and metrics</li>
+                        <li><span class="htw-model">Screen Resolution</span> Customizable width, height, and color depth</li>
+                        <li><span class="htw-model">Timezone & Locale</span> Spoofs timezone, language, and region settings</li>
+                    </ul>
+                </div>
+
+                <!-- Layer 3 -->
+                <div class="htw-card">
+                    <div class="htw-card-head">
+                        <span class="htw-emoji">🎧</span>
+                        <div>
+                            <h3>Audio & Media Fingerprinting</h3>
+                            <p>Prevents audio‑based tracking by altering audio context output and media device lists.</p>
+                        </div>
+                    </div>
+                    <ul class="htw-list">
+                        <li><span class="htw-model">Audio Context</span> Adds frequency distortion to audio fingerprint</li>
+                        <li><span class="htw-model">Media Devices</span> Spoofs camera, microphone, and speaker lists</li>
+                        <li><span class="htw-model">Codec Support</span> Randomizes supported audio/video codecs</li>
+                    </ul>
+                </div>
+
+                <!-- Layer 4 -->
+                <div class="htw-card">
+                    <div class="htw-card-head">
+                        <span class="htw-emoji">💻</span>
+                        <div>
+                            <h3>Hardware & Browser Fingerprinting</h3>
+                            <p>Controls the hardware and browser‑level parameters that websites inspect.</p>
+                        </div>
+                    </div>
+                    <ul class="htw-list">
+                        <li><span class="htw-model">User Agent</span> Full UA spoofing with version randomization</li>
+                        <li><span class="htw-model">Hardware Concurrency</span> Spoofs CPU core count and memory</li>
+                        <li><span class="htw-model">Platform & OS</span> Spoofs operating system and platform</li>
+                        <li><span class="htw-model">WebRTC</span> Prevents IP leaks through WebRTC</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Auto tip -->
+            <div class="htw-auto-tip">
+                <span class="htw-auto-icon">✨</span>
+                <div>
+                    <h4>Not sure which settings to use?</h4>
+                    <p>Leave the profile on <strong>Auto (Balanced)</strong> — AutoGuard automatically selects the optimal fingerprint parameters for your target websites and proxies.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== COMPARISON SECTION ===== -->
+    <section class="comparison-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>AutoGuard vs Competitors</h2>
+                <p>See why AutoGuard is the smartest choice for professional multi‑account management.</p>
+            </div>
+            <div class="comparison-wrapper">
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th class="highlight-cell">AutoGuard <span class="best-badge">Best</span></th>
+                            <th>GoLogin</th>
+                            <th>MultiLogin</th>
+                            <th>AdsPower</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="feature-name">Unlimited Profiles</td>
+                            <td class="highlight-cell"><span class="check-mark">✓</span> up to 10k (Mobile, Desktop)</td>
+                            <td>100–1,000</td>
+                            <td>100–1,000</td>
+                            <td>10–200</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">Fingerprint Protection</td>
+                            <td class="highlight-cell"><span class="check-mark">✓</span> 100+ parameters</td>
+                            <td><span class="check-mark">✓</span></td>
+                            <td><span class="check-mark">✓</span></td>
+                            <td><span class="check-mark">✓</span></td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">Proxy Managements</td>
+                            <td class="highlight-cell"><span class="check-mark">✓</span> HTTP, HTTPS, SOCKS5</td>
+                            <td><span class="check-mark">✓</span></td>
+                            <td><span class="check-mark">✓</span></td>
+                            <td><span class="check-mark">✓</span></td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">Batch Profile Management</td>
+                            <td class="highlight-cell"><span class="check-mark">✓</span> Bulk Operations</td>
+                            <td><span class="cross-mark">✗</span></td>
+                            <td><span class="check-mark">✓</span> Limited</td>
+                            <td><span class="check-mark">✓</span> Limited</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">Local Data Storage</td>
+                            <td class="highlight-cell"><span class="check-mark">✓</span> AES‑256 encrypted</td>
+                            <td><span class="cross-mark">✗</span> Cloud‑dependent</td>
+                            <td><span class="check-mark">✓</span></td>
+                            <td><span class="cross-mark">✗</span> Cloud‑dependent</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">Login Automation & Synchronizer</td>
+                            <td class="highlight-cell"><span class="check-mark">✓</span> Gmail, Synchronizer</td>
+                            <td><span class="check-mark">✓</span></td>
+                            <td><span class="check-mark">✓</span></td>
+                            <td><span class="check-mark">✓</span></td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">Cross‑Platform (Windows/macOS/Linux)</td>
+                            <td class="highlight-cell"><span class="check-mark">✓</span> All Platforms</td>
+                            <td><span class="check-mark">✓</span></td>
+                            <td><span class="check-mark">✓</span></td>
+                            <td><span class="check-mark">✓</span></td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">One‑time Payment Option</td>
+                            <td class="highlight-cell"><span class="check-mark">✓</span> Monthly, Semi, Yearly</td>
+                            <td><span class="cross-mark">✗</span> Subscription only</td>
+                            <td><span class="cross-mark">✗</span> Subscription only</td>
+                            <td><span class="cross-mark">✗</span> Subscription only</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">Starter Plan (Monthly)</td>
+                            <td class="highlight-cell"><strong>$28</strong></td>
+                            <td>$1149</td>
+                            <td>$900</td>
+                            <td>$1090</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">Professional Plan (Semi)</td>
+                            <td class="highlight-cell"><strong>$164</strong></td>
+                            <td>$6900</td>
+                            <td>$5400</td>
+                            <td>$2960</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">Enterprice Plan (Yearly)</td>
+                            <td class="highlight-cell"><strong>$320</strong></td>
+                            <td>$13800</td>
+                            <td>$10800</td>
+                            <td>$10500</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="scroll-hint">
+                <i class="fas fa-hand-point-right"></i> Swipe left/right to see all features
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== PRICING ===== -->
+    <section id="pricing" class="pricing">
+        <div class="container">
+            <div class="section-header">
+                <div class="pricing-header-flex">
+                    <div>
+                        <h2>Choose Your Plan</h2>
+                        <p>Pick the package that fits your needs and start managing accounts today.</p>
+                    </div>
+                    <!-- Currency Toggle -->
+                    <div class="currency-toggle-wrapper">
+                        <span class="currency-label" id="labelUSDT">USDT</span>
+                        <label class="switch">
+                            <input type="checkbox" id="currencyToggle" checked>
+                            <span class="slider round"></span>
+                        </label>
+                        <span class="currency-label" id="labelBDT">BDT</span>
+                        <span class="rate-hint" id="rateHint">(1 USDT = 125 ৳)</span>
+                    </div>
+                </div>
+            </div>
+            <div class="pricing-grid">
+
+                <!-- Starter -->
+                <div class="pricing-card" data-plan="starter">
+                    <div class="package-icon">🌟</div>
+                    <h3>Starter</h3>
+                    <p class="package-sub">For individuals & small creator</p>
+                    <div class="price" data-bdt="3500">
+                        <span class="price-number">3500</span> <span class="price-currency">৳</span>
+                    </div>
+                    <p class="price-note">One‑time payment</p>
+                    <div class="divider"></div>
+                    <ul class="features-list">
+                        <li><span class="check">✔</span> 1 Month Validity</li>
+                        <li><span class="check">✔</span> Unlimited Browser Profiles</li>
+                        <li><span class="check">✔</span> Full Automation Support</li>
+                        <li><span class="check">✔</span> Fingerprint Protection</li>
+                        <li><span class="check">✔</span> Proxy Manager</li>
+                    </ul>
+                    <a href="#" target="_blank" class="btn btn-whatsapp wa-link">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                        Contact on WhatsApp
+                    </a>
+                </div>
+
+                <!-- Pro (Popular) -->
+                <div class="pricing-card popular" data-plan="professional">
+                    <span class="pricing-badge">🔥 Most Popular</span>
+                    <div class="package-icon">🚀</div>
+                    <h3>Professional</h3>
+                    <p class="package-sub">Best for heavy creator</p>
+                    <div class="price" data-bdt="20500">
+                        <span class="price-number">20500</span> <span class="price-currency">৳</span>
+                    </div>
+                    <p class="price-note">One‑time payment</p>
+                    <div class="divider"></div>
+                    <ul class="features-list">
+                        <li><span class="check">✔</span> 6 Month Validity</li>
+                        <li><span class="check">✔</span> Unlimited Browser Profiles</li>
+                        <li><span class="check">✔</span> Full Automation Support</li>
+                        <li><span class="check">✔</span> Automation API Access</li>
+                        <li><span class="check">✔</span> Custom Fingerprints</li>
+                    </ul>
+                    <a href="#" target="_blank" class="btn btn-whatsapp wa-link">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                        Contact on WhatsApp
+                    </a>
+                </div>
+
+                <!-- EnterPrice -->
+                <div class="pricing-card" data-plan="enterprice">
+                    <div class="package-icon">👑</div>
+                    <h3>EnterPrice</h3>
+                    <p class="package-sub">Best for agencies</p>
+                    <div class="price" data-bdt="40000">
+                        <span class="price-number">40000</span> <span class="price-currency">৳</span>
+                    </div>
+                    <p class="price-note">One‑time payment</p>
+                    <div class="divider"></div>
+                    <ul class="features-list">
+                        <li><span class="check">✔</span> 12 Month Validity</li>
+                        <li><span class="check">✔</span> Unlimited Browser Profiles</li>
+                        <li><span class="check">✔</span> Full Automation Support</li>
+                        <li><span class="check">✔</span> Premium Supports</li>
+                        <li><span class="check">✔</span> Early Access to Features</li>
+                    </ul>
+                    <a href="#" target="_blank" class="btn btn-whatsapp wa-link">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                        Contact on WhatsApp
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== Download ===== -->
+    <section id="download" class="download">
+        <div class="container">
+            <div class="download-box">
+                <div class="section-header">
+                    <h2>Ready to Secure Your Accounts?</h2>
+                    <p>Download the latest version for your platform and start managing unlimited profiles today.</p>
+                </div>
+                <div class="download-grid">
+                    <!-- Windows -->
+                    <div class="download-card">
+                        <div class="os-icon">
+                            <i class="fa-brands fa-windows"></i>
+                            <span class="version-badge">v3.0.0</span>
+                        </div>
+                        <h4>Windows</h4>
+                        <p class="os-version">Windows 10/11 • 64-bit</p>
+                        <div class="dl-buttons">
+                            <a href="https://github.com/Munna-Soft/AntiDetectBrowser/releases/latest/download/AutoGuard_Setup.exe" target="_blank" class="btn btn-primary">
+                                <i class="fas fa-download"></i> Installer (.exe)
+                            </a>
+                            <a href="https://github.com/Munna-Soft/AntiDetectBrowser/releases/latest/download/AutoGuard_Setup.zip" target="_blank" class="btn btn-outline">
+                                <i class="fas fa-archive"></i> Portable (.zip)
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- macOS -->
+                    <div class="download-card coming-soon">
+                        <div class="os-icon">
+                            <i class="fa-brands fa-apple"></i>
+                            <span class="version-badge">v3.0.0</span>
+                        </div>
+                        <h4>macOS</h4>
+                        <p class="os-version">Apple Silicon + Intel</p>
+                        <div class="dl-buttons">
+                            <a href="https://github.com/Munna-Soft/AntiDetectBrowser/releases/latest/download/AutoGuard_Setup.pkg" target="_blank" class="btn btn-primary">
+                                <i class="fas fa-download"></i> Installer (.pkg)
+                            </a>
+                            <a href="https://github.com/Munna-Soft/AntiDetectBrowser/releases/latest/download/AutoGuard_Setup.dmg" target="_blank" class="btn btn-outline">
+                                <i class="fas fa-archive"></i> Portable (.dmg)
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Linux -->
+                    <div class="download-card coming-soon">
+                        <div class="os-icon">
+                            <i class="fa-brands fa-linux"></i>
+                            <span class="version-badge">v3.0.0</span>
+                        </div>
+                        <h4>Linux</h4>
+                        <p class="os-version">AppImage + DEB</p>
+                        <div class="dl-buttons">
+                            <a href="https://github.com/Munna-Soft/AntiDetectBrowser/releases/latest/download/AutoGuard_Setup.AppImage" target="_blank" class="btn btn-primary">
+                                <i class="fas fa-download"></i> AppImage
+                            </a>
+                            <a href="https://github.com/Munna-Soft/AntiDetectBrowser/releases/latest/download/AutoGuard_Setup.deb" target="_blank" class="btn btn-outline">
+                                <i class="fas fa-archive"></i> DEB Package
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <p class="download-note">🔹 All versions include full features · No cloud uploads · All data stored locally · 3 Days Free trial included</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== Footer ===== -->
+    <footer class="footer">
+        <div class="container footer-container">
+            <div class="footer-col">
+                <h4>🛡️ AutoGuard – Self Hosted Anti-Detect Browser for Multi-Accounts Management</h4>
+                <p>Built‑in fingerprint protection, proxy management, auto gmail login automation & synchronizer.</p>
+            </div>
+            <div class="footer-col">
+                <h5>Contact</h5>
+                <a href="https://t.me/SpeedXmunna" target="_blank">📧 Telegram</a>
+                <a href="https://activepanel.org" target="_blank">🌐 activepanel.org</a>
+            </div>
+            <div class="footer-col">
+                <h5>Follow</h5>
+                <div class="social-links">
+                    <a href="https://facebook.com/The.Munna" target="_blank" aria-label="Facebook">Facebook</a>
+                    <a href="https://github.com/Munna-Soft" target="_blank" aria-label="GitHub">GitHub</a>
+                    <a href="https://linkedin.com/in/the-munna" target="_blank" aria-label="LinkedIn">LinkedIn</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container">
+                <p>© 2026 Munna MasterMind — All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // ============================================================
+        // 🔧 CONFIGURATION – change only this value to update all prices
+        // ============================================================
+        const CONVERSION_RATE = 125; // 1 USDT = 125 BDT
+
+        // ============================================================
+
+        // ===== ANIMATED BACKGROUND: Particle System =====
+        function initParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 30;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+
+                // Random starting position
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + 'vh';
+
+                // Random animation duration (10-20s)
+                const duration = 10 + Math.random() * 10;
+                particle.style.animationDuration = duration + 's';
+
+                // Random delay
+                particle.style.animationDelay = Math.random() * 5 + 's';
+
+                // Random size
+                const size = 1 + Math.random() * 3;
+                particle.style.width = size + 'px';
+                particle.style.height = size + 'px';
+
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // Smooth scroll for anchor links
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize animated background
+            initParticles();
+
+            const links = document.querySelectorAll('a[href^="#"]');
+            links.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        e.preventDefault();
+                        targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                });
+            });
+
+            // Theme Toggle with dynamic image
+            const toggleBtn = document.getElementById('themeToggle');
+            const toggleIcon = toggleBtn.querySelector('.toggle-icon');
+            const guiPreview = document.getElementById('guiPreview');
+
+            const IMAGES = {
+                dark: 'gui-dark.png',
+                light: 'gui-light.png'
+            };
+
+            toggleBtn.addEventListener('click', function() {
+                document.body.classList.toggle('light-theme');
+
+                if (document.body.classList.contains('light-theme')) {
+                    toggleIcon.textContent = '☀️';
+                    guiPreview.src = IMAGES.light;
+                } else {
+                    toggleIcon.textContent = '🌙';
+                    guiPreview.src = IMAGES.dark;
+                }
+            });
+
+            // ===== CURRENCY TOGGLE (automatic conversion) =====
+            const currencyToggle = document.getElementById('currencyToggle');
+            const rateHint = document.getElementById('rateHint');
+            const labelUSDT = document.getElementById('labelUSDT');
+            const labelBDT = document.getElementById('labelBDT');
+
+            rateHint.textContent = `(1 USDT = ${CONVERSION_RATE} ৳)`;
+
+            const priceElements = document.querySelectorAll('.pricing-card .price');
+
+            function formatNumber(num) {
+                if (Number.isInteger(num)) return num.toString();
+                return num.toFixed(2);
+            }
+
+            function updatePrices(showBDT) {
+                if (showBDT) {
+                    labelBDT.classList.add('active');
+                    labelUSDT.classList.remove('active');
+                } else {
+                    labelUSDT.classList.add('active');
+                    labelBDT.classList.remove('active');
+                }
+
+                priceElements.forEach(el => {
+                    const bdtValue = parseFloat(el.getAttribute('data-bdt'));
+                    const numberSpan = el.querySelector('.price-number');
+                    const currencySpan = el.querySelector('.price-currency');
+
+                    if (showBDT) {
+                        numberSpan.textContent = formatNumber(bdtValue);
+                        currencySpan.textContent = '৳';
+                    } else {
+                        const usdtValue = bdtValue / CONVERSION_RATE;
+                        numberSpan.textContent = formatNumber(usdtValue);
+                        currencySpan.textContent = 'USDT';
+                    }
+                });
+
+                // Update WhatsApp links
+                const waLinks = document.querySelectorAll('.wa-link');
+                const phone = '8801968629792';
+                waLinks.forEach(link => {
+                    const card = link.closest('.pricing-card');
+                    if (!card) return;
+                    const plan = card.getAttribute('data-plan');
+                    let planName, bdtPrice;
+                    if (plan === 'starter') {
+                        planName = 'Starter';
+                        bdtPrice = 3500;
+                    } else if (plan === 'professional') {
+                        planName = 'Professional';
+                        bdtPrice = 20500;
+                    } else if (plan === 'enterprice') {
+                        planName = 'EnterPrice';
+                        bdtPrice = 40000;
+                    } else {
+                        return;
+                    }
+
+                    const usdtPrice = bdtPrice / CONVERSION_RATE;
+                    const displayPrice = showBDT ? bdtPrice : usdtPrice;
+                    const displayCurrency = showBDT ? 'BDT' : 'USDT';
+                    const otherCurrency = showBDT ? 'USDT' : 'BDT';
+                    const otherPrice = showBDT ? usdtPrice : bdtPrice;
+
+                    const formattedDisplay = typeof displayPrice === 'number' ? formatNumber(displayPrice) :
+                    displayPrice;
+                    const formattedOther = typeof otherPrice === 'number' ? formatNumber(otherPrice) : otherPrice;
+
+                    const msg =
+                        `I am interested in getting the ${planName} package of AutoGuard anti-detect browser. The price is ${formattedDisplay} ${displayCurrency} ( ${formattedOther} ${otherCurrency} ). I want to know the details.`;
+                    link.href = `https://wa.me/${phone}?text=${encodeURIComponent(msg)}`;
+                });
+            }
+
+            // Set initial state: checkbox checked = BDT
+            currencyToggle.checked = true;
+            updatePrices(true);
+
+            currencyToggle.addEventListener('change', function() {
+                updatePrices(this.checked);
+            });
+
+            console.log('🛡️ AutoGuard – Advanced Anti-Detect Browser');
+            console.log(`💰 Conversion rate: 1 USDT = ${CONVERSION_RATE} BDT`);
+        });
+    </script>
+</body>
+</html>
