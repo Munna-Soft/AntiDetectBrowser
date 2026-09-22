@@ -6,13 +6,13 @@ All notable changes to **Autoguard Anti-Detect Browser** are documented here.
 
 ## [3.0.0] - 2026-09-15 - *Added Brand New Features.*
 - [Added] Bulk profile creation with custom templates and settings.
-- [Added] Bulk Mobile Profiles creation with custom templates and settings.
+- [Added] Bulk Mobile Profile creation with custom templates and settings.
 - [Added] Auto Gmail Login system in Profiles Section.
 - [Added] Bulk Gmail Login system in API/Automation Section.
 - [Added] Profile Synchronizer & Stimulate multiple profiles with the same settings in the API/Automation Section.
 - [Added] New Fingerprint Generator with 100+ new options.
-- [Fixed] License Validation system optimization with SHA256 Encryption & .ENV file support.
-- [Fixed] Create profiles Bug fixes and performance improvements.
+- [Fixed] License Validation system optimization with SHA256 Encryption.
+- [Fixed] Profile creation bug fixes and performance improvements.
 - [Fixed] Cascading Proxy deletion system in the Proxy Manager Section.
 - [Fixed] Some UI/UX improvements and major and minor bug fixes.
 
